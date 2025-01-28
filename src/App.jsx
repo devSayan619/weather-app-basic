@@ -5,14 +5,19 @@ function App() {
   const [data, setData] = useState([]);
   const [location, setLocation] = useState("");
 
-  const API_KEY = "5ab673fece9a9b4905e1c6a92474cfa3";
+  const API_KEY = import.meta.env.VITE_API_KEY;
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${API_KEY}`;
 
   const searchLocation = (e) => {
     if (e.key === "Enter") {
-      axios.get(url).then((response) => {
-        setData(response.data);
-      });
+      axios
+        .get(url)
+        .then((response) => {
+          setData(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching weather data:", error);
+        });
       setLocation("");
     }
   };
